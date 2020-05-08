@@ -45,12 +45,32 @@ sanitizeBody("price").toFloat()],async(req,res)=>{
 })
 
 router.put("/:asin",async(req,res)=>{
-    
+    const books=await getBooks()
+    const book =books.find(x=>x.asin===req.params.asin)
+    if(book){
+        const position=books.indexOf(book)
+        const  bookUpdated=Object.assign(book,req.body)
+        books[position]=bookUpdated
+        await fs.writeFile(booksJsonPath,JSON.stringify(books))
+        res.status(200).send("Updated")
+    }
+    else 
+    res.status(404).send("Not found")
     // res.send("OK")
 })
 
-router.delete("/",async(req,res)=>{
-    res.send("OK")
+router.delete("/:asin",async(req,res)=>{
+const books=await getBooks()
+const booksToBeSaved=books.filter(x=>x.asin!==req.params.asin)
+if(booksToBeSaved.length===books.length){
+    res.status(404).send("Cannot find book")
+}
+else{
+    await fs.writeFile(booksJsonPath,JSON.stringify(booksToBeSaved))
+    res.send("Deleted")
+}
+
+    // res.send("OK")
 })
 
 module.exports=router
