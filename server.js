@@ -22,10 +22,10 @@ var corsOptions = {
 
 const port =process.env.PORT || 5000
 // server.use(cors())//insecured way to define cors
-//  server.use(cors(corsOptions))
+ server.use(cors(corsOptions))
 server.use(express.json())
-server.use("/books",cors(corsOptions),booksRouter)//cors work as a middleware also
-// server.use("/books",booksRouter)
+// server.use("/books",cors(corsOptions),booksRouter)//cors work as a middleware also
+server.use("/books",booksRouter)
 server.get("/",(req,res)=>{
     res.send("Hello")
 })
