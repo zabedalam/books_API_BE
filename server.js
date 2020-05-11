@@ -9,7 +9,7 @@ const server=express()
 //   }
 
 // if multiple host for accessing the backend
-var whitelist = ['http://localhost:3000', 'http://localhost:3001',"https://booksapife.herokuapp.com/","http://booksapife.herokuapp.com/"]
+var whitelist = ['http://localhost:3000', 'http://localhost:3001',"https://immense-depths-66658.herokuapp.com/","http://booksapife.herokuapp.com/"]
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
