@@ -2,6 +2,7 @@ const express=require("express")
 const booksRouter=require("./src/book")
 const commentsRouter=require("./src/comments")
 const cors =require("cors")
+const listEndpoints=require("express-list-endpoints")
 
 const server=express()
 // var corsOptions = {
@@ -32,5 +33,5 @@ server.get("/",(req,res)=>{
     res.send("Hello")
 })
 
-
+console.log(listEndpoints(server))
 server.listen(port,()=>{console.log(`I am listening at ${port}`)})
