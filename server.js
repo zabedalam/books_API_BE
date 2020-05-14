@@ -11,20 +11,20 @@ const server=express()
 //   }
 
 // if multiple host for accessing the backend
-// var whitelist = ['http://localhost:3000', 'http://localhost:3001',"http://immense-depths-66658.herokuapp.com/","https://immense-depths-66658.herokuapp.com/"]
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
+var whitelist = ['http://localhost:3000', 'http://localhost:3001',"http://immense-depths-66658.herokuapp.com/","https://immense-depths-66658.herokuapp.com/"]
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 const port =process.env.PORT || 5000
 // server.use(cors())//insecured way to define cors
-//  server.use(cors(corsOptions))
+ server.use(cors(corsOptions))
 server.use(express.json())
 // server.use("/books",cors(corsOptions),booksRouter)//cors work as a middleware also
 server.use("/books",booksRouter)
