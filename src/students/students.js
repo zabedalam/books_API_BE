@@ -11,25 +11,27 @@ const readFile = async () => {
   return JSON.parse(content);
 };
 
-router.get("/", async (req, res) => {
-  const students = await readFile();
+router.get("/", async (req, res) => {//this will respond to each get on the /students
+  const students = await readFile();//and will return in the response the list of students
   res.send(students);
   // res.send("All students")
 });
 
-router.get("/:id", async (req, res) => {
-  const students = await readFile();
-  const student = students.find((x) => x._id === req.params.id);
-  if (student) res.send(student);
-  else res.status(404).send("Not found");
+router.get("/:id", async (req, res) => {//this wil get /students/:id
+  const students = await readFile();//reads all the students
+  const student = students.find((x) => x._id === req.params.id);//search for the students with the given id
+  if (student) //if not undefined!
+  res.send(student);//return if found
+  else res.status(404).send("Not found"); //or error
   // res.send("Single Student")
 });
 
-router.post("/", async (req, res) => {
-   const previousStudents=await readFile()
-   const student=previousStudents.find(x=>x.email===req.body.email)
+router.post("/", async (req, res) => {//this will handle POST /students
+   const previousStudents=await readFile()//reads the students from the disk
+   const student=previousStudents.find(x=>x.email===req.body.email)//check if a previously created student has the same email
     if(student)
-    res.status(500).send("Cannot create:email already use")
+    res.status(500).send("Cannot create:email already use")//if so, throws an error
+
     // req.body._id=uuid()
     // req.body.creationTime=new Date()
     const toAdd = {
@@ -38,8 +40,8 @@ router.post("/", async (req, res) => {
         updatedAt: new Date(),
         _id: uuid(),
       };
-      previousStudents.push(toAdd)
-      await fs.writeFile(studentsFilePath,JSON.stringify(previousStudents))
+      previousStudents.push(toAdd)//push the item into the students array
+      await fs.writeFile(studentsFilePath,JSON.stringify(previousStudents))//override the previous array on the harddrive
       res.send(toAdd)
 
 //   res.send("ok");
@@ -58,7 +60,7 @@ res.status(404).send("Not found")
 //   res.send("ok");
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {//handle PUT /students/:id
     const students=await readFile()
     const student =students.find(x=>x._id===req.params.id)
     if(student)
